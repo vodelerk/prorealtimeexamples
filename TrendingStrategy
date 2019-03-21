@@ -1,0 +1,36 @@
+// parameter definition
+DEFPARAM CumulateOrders = False // Accumulation of positions deactivated
+
+// Entry rules for long
+indicator1 = RSI[20](close)
+c1 = (indicator1 CROSSES OVER 30)
+indicator2 = Average[20](close)
+c2 = (indicator2 >= close)
+indicator3 = Stochastic[14,3](close)
+indicator4 = Average[3](indicator3)
+c3 = (indicator3[3] CROSSES OVER indicator4[3])
+indicator5 = BollingerDown[20](close)
+c4 = (indicator5 < close)
+
+IF c1 AND c2 AND c3 AND c4 THEN
+BUY 1 SHARES AT MARKET
+ENDIF
+
+// Entry rules for short
+indicator6 = RSI[20](close)
+c5 = (indicator6 CROSSES UNDER 70)
+indicator7 = Average[20](close)
+c6 = (indicator7 <= close)
+indicator8 = Stochastic[14,3](close)
+indicator9 = Average[3](indicator8)
+c7 = (indicator8[3] CROSSES UNDER indicator9[3])
+indicator10 = BollingerUp[20](close)
+c8 = (indicator10 > close)
+
+IF c5 AND c6 AND c7 AND c8 THEN
+SELLSHORT 1 SHARES AT MARKET
+ENDIF
+
+// Stops and take profit
+SET STOP pLOSS 4
+SET TARGET pPROFIT 6
